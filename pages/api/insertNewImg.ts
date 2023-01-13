@@ -7,7 +7,7 @@ async function checkWalletExists(wallet: string) {
 
     const dbQuery = await db
         .collection('users')
-        .find({"wallet": wallet});
+        .find({"wallet": wallet}); 
 
     console.log("dbQuery");
     console.log(dbQuery);
