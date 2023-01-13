@@ -1,6 +1,5 @@
 import clientPromise from "../../lib/mongodb";
 import type { NextApiRequest, NextApiResponse } from 'next';
-const imageToBase64 = require('image-to-base64'); // todo: uninstall!
 
 async function checkWalletExists(wallet: string) {
     const client = await clientPromise;
