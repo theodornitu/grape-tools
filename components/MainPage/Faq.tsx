@@ -15,7 +15,7 @@ export default function Faq() {
 
   return (
     <>
-      <div className="mx-auto text-center px-4 mt-12 text-4xl text-slate-700 font-semibold">
+      <div className="mx-auto text-center px-4 mt-12 text-4xl text-violet-600 font-semibold">
         Frequently Asked Questions
       </div>
       <div className="container mb-28 ">
@@ -40,7 +40,7 @@ export default function Faq() {
                     <div>
                       <svg
                         fill="currentColor"
-                        className={`${active.status && i === active.activeIndex ? 'hidden' : ''} question-chevron group-hover:bg-gray-500 h-5 block text-indigo-800 bg-gray-100 rounded-full p-1`}
+                        className={`${active.status && i === active.activeIndex ? 'hidden' : ''} question-chevron group-hover:bg-gray-500 h-5 block text-violet-600 bg-gray-100 rounded-full p-1`}
                         viewBox="0 0 20 20"
                         version="1.1"
                         xmlns="http://www.w3.org/2000/svg"
@@ -59,7 +59,7 @@ export default function Faq() {
                       </svg>
                       <svg
                         fill="currentColor"
-                        className={`${active.status && i === active.activeIndex ? '' : 'hidden'} question-chevron group-hover:bg-gray-500 h-5 block text-indigo-800 bg-gray-100 rounded-full p-1`}
+                        className={`${active.status && i === active.activeIndex ? '' : 'hidden'} question-chevron group-hover:bg-gray-500 h-5 block text-violet-800 bg-violet-200 rounded-full p-1`}
                         viewBox="0 0 20 20"
                         version="1.1"
                         xmlns="http://www.w3.org/2000/svg"

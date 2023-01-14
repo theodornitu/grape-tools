@@ -1,10 +1,8 @@
 import Footer from '../components/Footer';
-import About from '../components/MintPage/About';
-import Carousel from '../components/MintPage/Carousel';
-import Faq from '../components/MintPage/Faq';
-import Header from '../components/MintPage/Header';
-import Roadmap from '../components/MintPage/Roadmap';
-import Team from '../components/MintPage/Team';
+import About from '../components/MainPage/About';
+import Carousel from '../components/MainPage/Carousel';
+import Faq from '../components/MainPage/Faq';
+import Main from '../components/MainPage/Main';
 import Navbar from '../components/Navbar';
 
 import type {NextPage} from 'next'
@@ -13,16 +11,10 @@ const Home: NextPage = () => {
         <div>
                 <Navbar />
                 <About />
-                <Header />
+                <Main />
                 <Carousel />
                 {/* <Faq /> */}
                 <Footer footerLanding />
-
-                {/*<Roadmap />
-                <Team />
-                <Faq />
-                <Footer footerLanding /> */}
-            
         </div>
         
     );

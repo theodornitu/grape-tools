@@ -1,6 +1,6 @@
 import React from "react";
 
-const Alert = () => {
+const AlertBanner = () => {
   const [showAlert, setShowAlert] = React.useState(true);
   return (
     <>
@@ -12,7 +12,7 @@ const Alert = () => {
             <i className="fas fa-bell text-violet-600" />
           </span>
           <span className="inline-block align-middle mr-8">
-            <b className="capitalize">Hoya!</b> Glad to have you here, start now with 5 free credits or just 0.2$/image generation, minting costs are on us!
+            <b className="capitalize">Hoya!</b> Glad to have you here, start now with 15 free credits. No credits? Just 0.2$/image generation!
           </span>
           <button
             className="absolute bg-transparent text-2xl font-semibold leading-none right-0 top-0 mt-4 mr-6 outline-none focus:outline-none"
@@ -26,4 +26,4 @@ const Alert = () => {
   );
 };
 
-export default Alert;
+export default AlertBanner;

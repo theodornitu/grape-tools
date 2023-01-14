@@ -5,13 +5,13 @@ interface requests {
     imgCap: string;
 }
 
-function ImgCar(props: requests) {
+function CarouselComponent(props: requests) {
     const bgAsUrl = "url('" + props.imgUrl + "')";
 
     return (
         <div
             key={props.imgUrl}
-            className="carousel-focus flex items-center justify-end flex-col relative bg-white mx-5 p-4 mb-4 overflow-hidden rounded-2xl shadow-soft-lg"
+            className="carousel-focus flex items-center justify-end flex-col relative bg-white mx-5 p-4 mb-4 overflow-hidden rounded-2xl shadow-soft-md"
             style={{ 
                 width: 300,
                 height: 300,
@@ -27,4 +27,4 @@ function ImgCar(props: requests) {
     );
 };
 
-export default ImgCar;
+export default CarouselComponent;

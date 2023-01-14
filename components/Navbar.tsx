@@ -1,4 +1,4 @@
-import { useAuth } from '@elrond-giants/erd-react-hooks/dist';
+import { useAuth } from "@elrond-giants/erd-react-hooks/dist/useAuth/useAccount";
 import Link from 'next/link';
 import React from 'react';
 
@@ -52,7 +52,8 @@ export default function Navbar() {
           <nav className="absolute top-0 left-0 right-0 z-30 flex flex-wrap items-center px-4 py-2 mx-6 my-4 rounded-xl bg-violet-100 backdrop-blur-2xl backdrop-saturate-200 lg:flex-nowrap lg:justify-start">
             <div className="flex items-center justify-between w-full p-0 pl-6 mx-auto flex-wrap-inherit sm-max:pl-0 sm-max:ml-2">
               <a className="py-2.375 text-sm mr-4 whitespace-nowrap font-bold text-slate-800">
-                <Link href={homePath}>Hoya, Grape!</Link>
+                {/* <Link href={homePath}>Hoya, Grape!</Link> */}
+                Hoya, Grape!
               </a>
               <button
                 onClick={expandCollapse}

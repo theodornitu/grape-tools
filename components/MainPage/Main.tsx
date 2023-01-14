@@ -1,209 +1,165 @@
 //From Giants libs
-import { useAuth } from "@elrond-giants/erd-react-hooks/dist"
+import { useAuth } from "@elrond-giants/erd-react-hooks/dist/useAuth/useAccount";
 import { ITransactionProps } from "@elrond-giants/erd-react-hooks/dist/types";
 import { useTransaction } from "../../hooks/useTransaction";
 import { authPath } from "../../utils/routes";
 
+//From grapedb libs
+import {checkNewWallet, pushNewImage} from './../../lib/grapedb';
+import {GEN_TYPE_CREDITS, GEN_TYPE_EGLD} from './../../lib/grapedb';
+
+import {generateImage} from './../../lib/grapeimg';
+
 //NextJs
 import Link from "next/link";
-import Image from 'next/image'
 
 //React
 import { useEffect, useState } from "react";
 import React from 'react';
 
 //Components
-import Card from './Card';
-import Alert from './Alert';
-import Grape from './Grape';
-import Tooltip from "./Tooltip";
+import WalletCard from './Helpers/WalletCard';
+import AlertBanner from './Helpers/AlertBanner';
+import Grape from './Helpers/media/Grape';
+import Tooltip from "./Helpers/Tooltip";
+
+// ------------------------------------------------------------------------------------------------------
 
 export default function Header() {
-  //OpenAI 
-  const [value, setValue] = useState('');
-  const [prompt, setPrompt] = useState('');
+  // ------------- OpenAI  ------------- //
   const [imgUrl, setImgUrl] = useState('');
-
   const [generated, setGenerated] = useState(false);
+  const [captionText, setCaptionText] = useState('');
   const [isImgProcessing, setImgProcessing] = useState(false);
 
-  const [getImgBase64 , setImgBase64] = useState('');
-
-  //Elrond Blockchain
-  const receiver_address = "erd1gjynzd6d9dwa76cyg078srj25a5kc3lgt2utac3hz8ezyxl4k22qc0efa4";
-
+  // ------------- Blockchain ------------- //
+  const [egldPrice, setEgldPrice] = useState(0);
   const { authenticated } = useAuth();
   const { whenCompleted, makeTransaction } = useTransaction();
 
-  const [egldPrice, setEgldPrice] = useState(0);
+  // ------------- Client wallet ------------- //
+  const {address, balance, nonce} = useAuth();
+  const [walletCredits, setWalletCredits] = useState(0);
+
+  // ------------- Generate Img Transaction consts ------------- //
+  const [generateTrigger, setGenerateTrigger] = useState(0);
   const [txValue, setTxValue] = useState(0);
+  const receiver_address = "erd1gjynzd6d9dwa76cyg078srj25a5kc3lgt2utac3hz8ezyxl4k22qc0efa4";
+  const txData: ITransactionProps = {
+    receiver: receiver_address,
+    data: "generate",
+    gasLimit: 13_000_000,
+    value: txValue,
+  };
 
-  const [isTxProcessing, setTxProcessing] = useState(false);
-  const [isTxSuccessful, setTxSuccessful] = useState(Boolean);
+  // ------------------------------------------------------------------------------------------------------
 
-  const {address, balance} = useAuth();
-  
-  //Generate Image
+  // ------------- Grape functions ------------- //
   const generateImageTx = async () => {
     var txObject; 
-    //Prepare tx data
-    const txData: ITransactionProps = {
-      receiver: receiver_address,
-      data: "generate",
-      gasLimit: 13_000_000,
-      value: txValue,
-    };
-
-    if(value != "") //Make sure no empty caption
-      if(txValue > 0) //Make sure no compute issues appear
-      {
-        setTxProcessing(true);
-        setImgProcessing(true);
+    //Make sure no empty caption
+    if(captionText != "") 
+      //Make sure no compute issues appear
+      if(txValue > 0) 
         txObject = await makeTransaction(txData);
-      }
       else
         alert("An error has occured, no transaction broadcasted!")
     else
       alert("Image description cannot be empty!");
 
-      const txHash = String(txObject?.hash);
-      const txResult = await whenCompleted(txHash, {interval: 2000});
-      if (txResult.status.isExecuted()) {
-        setTxProcessing(false);
-        generateImage(); //Only generate image after tx is successful
-      }
+    const txHash = String(txObject?.hash);
+    const txResult = await whenCompleted(txHash, {interval: 2000});
+    if (txResult.status.isExecuted())
+      callImgGenAPI(GEN_TYPE_EGLD);
   };
 
-  const generateImage = async () => {
-    setPrompt(value);
-    
-    const response = await fetch('/api/imageGeneration', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify({ text: value }),
-    });
-  const data = await response.json();
-  setValue('')
-  setGenerated(true);
-  setImgProcessing(false);
-  setImgUrl(data.result.data[0].url); 
+  // ------------------------------------------------------------------------------------------------------
 
-  };
-  // End of Generate image
+  // ------------- API Call wrappers ------------- //
+  // Handle Image generation API call for OpenAI
+  // genType = 0 -> Credits
+  // genType = 1 -> Egld
+  const callImgGenAPI = async (genType: number) => {
+    setImgProcessing(true);
+    const generatedImage = await generateImage(captionText);
+    setGenerated(true);
+    setImgProcessing(false);
+    setImgUrl(generatedImage);
+    console.log("Pushing new image from url: " + generatedImage);
+    console.log("wallet address: " + String(address));
+    console.log("Using gen type: " + String(genType));
+    pushNewImage(generatedImage, address!, captionText, genType);
+  }
+  // Handle checkNewWallet API call for MongoDB
+  const callCheckNewWalletAPI = async () => {
+    const walletCredits = await checkNewWallet(address!, nonce);
+    setWalletCredits(walletCredits);
+  }
 
+  // ------------- Input fields handlers ------------- //
   //Handle input change in text form
-  const handleInput = React.useCallback(
+  const handleInputFormChange = React.useCallback(
     (e: React.ChangeEvent<HTMLInputElement>) => {
-      setValue(e.target.value);
+      setCaptionText(e.target.value);
     }, []
   );
 
-  //Get EGLD Price for Generate
+  //Handle Generate button click
+  const handleGenerateImg = async () => {
+    setGenerateTrigger(generateTrigger + 1);
+    if(walletCredits > 0) {
+      console.log("Generating with EGLD");
+      setWalletCredits(walletCredits-1);
+      callImgGenAPI(GEN_TYPE_CREDITS)
+    }
+    else {
+      console.log("Generating with EGLD");
+      generateImageTx();
+    }
+  }
+
+  // ------------- Runtime updating stuff ------------- //
+  // Get EGLD Price for Generate
   useEffect(() => {
     fetch('https://api.elrond.com/economics')
       .then((response) => response.json())
       .then((data) => {
         setEgldPrice(data.price);
+        setTxValue(0.2/data.price);
+        console.log("EGLD Price: " + String(data.price));
+        console.log("TX Value: " + String(0.2/data.price));
+
       })
       .catch((err) => {
         console.log(err.message);
       });
-    });
-    
-  //Compute EGLD value for 0.2$ generation cost
-  useEffect(() => {
-    if(egldPrice != null)
-      setTxValue(0.2/egldPrice);
-   });
+    }, [generateTrigger, authenticated]);
 
-   useEffect(() => {
+  // Set loading gif
+  useEffect(() => {
     if(isImgProcessing == true)
       setImgUrl("loading.gif");
-   });
+   }, [isImgProcessing]);
 
-  // const handleKeyDown = React.useCallback(
-  //   async (e: React.KeyboardEvent<HTMLInputElement>) => {
-  //     if (e.key === 'Enter') {
-  //       setPrompt(value);
-  //       setCompletion('Loading...');
-  //       const response = await fetch('/api/completion', {
-  //         method: 'POST',
-  //         headers: {
-  //           'Content-Type': 'application/json',
-  //         },
-  //         body: JSON.stringify({ text: value }),
-  //       });
-  //       const data = await response.json();
-  //       setValue('');
-  //       console.log("Response");
-  //       console.log(response);
-  //       setCompletion(data.result.choices[0].text); //
-  //     }
-  //   }, [value]);
-
-  //Insert img in db
-  const insertImg = async (imgUrl: string, wallet: string, caption: string) => {
-    const response = await fetch('/api/insertNewImg', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify({ imageUrl: imgUrl, walletAddress: wallet, imageCaption: caption}),
-    });
-  const data = await response.json();  
-  };
-
-  const getImg = async () => {
-    const response = await fetch('/api/getImg', {
-      method: 'GET',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-    });
-  const imgData = await response.json();
-  // setImgBase64(imgData.result.requests.image);
-  };
-
+  // On Auth -> Check if wallet is part of DB. If not -> Add it. If nonce > 25 offer 15 credits.
   useEffect(() => {
-    getImg();
-    selectAll();
-   },[]);
-
-  const insertImgAsync = async () => {
-    const urlCustom = "https://media.istockphoto.com/id/1158975684/photo/grapes-red-grape-grape-branch-isolated-on-white.jpg?s=612x612&w=0&k=20&c=9A8zhyTwckgPjTbIZUm_9DDJEWKJqBp1p2f0YqZ2FQA=";
-    insertImg(urlCustom, "erd1qqqqqqqqqqqqqqqpqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqplllst6969", "Test6");
-  }
-
-  const selectAll = async () => {
-    const response = await fetch('/api/selectAll', {
-      method: 'GET',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-    });
-  const resp = await response.json();
-  // console.log(resp);
-  };
+    // console.log("authenticated: " + String(authenticated));
+    if(authenticated) {
+      if(nonce > 25) {
+          // console.log("Nonce: " + String(nonce));
+          callCheckNewWalletAPI();
+      }
+      else
+        alert("Your wallet is not valid for the 15 free credits. \nIt is either new (no valid TXs) or blacklisted. \nGenerated images will not be backed up by Grape.")
+    }
+  },[authenticated])
 
   return (
     <>
       <section>
         <div className="relative flex items-center p-0 overflow-hidden bg-transparent bg-center bg-cover min-h-75-screen">
           <div className="container z-10">
-            <Alert />
-            
-            
-            <button 
-              className="inline-block px-6 py-3 mr-3 font-bold text-center text-white uppercase align-middle transition-all rounded-3.5xl cursor-pointer bg-gradient-to-tl from-violet-600 to-violet-300 text-xs ease-soft-in tracking-tight-soft shadow-soft-md bg-150 bg-x-25 hover:scale-102 active:opacity-85 hover:shadow-soft-xs"
-              onClick={insertImgAsync}
-            >
-              Debug insert
-            </button>
-            {/* <img src={getImgBase64}></img> */}
-
-
+            <AlertBanner />
             <div className="flex flex-wrap mt-20 mb-24 sm-max:mt-0">
               <div className="flex flex-col w-full mt-12 max-w-full px-3 ml-10 sm-max:mt-5 sm-max:ml-0 md:flex-0 shrink-0 md:w-10/12 xl:w-4/12">
                 <div className="relative flex flex-col min-w-0 break-words bg-transparent border-0 shadow-none rounded-2xl bg-clip-border">
@@ -212,7 +168,7 @@ export default function Header() {
                     <h1 className="relative z-10 font-bold text-transparent bg-gradient-to-tl from-violet-600 to-violet-300 bg-clip-text">
                       Tell me what you want 
                     </h1>
-                    <input value={value} onChange={handleInput} type="text" placeholder="Describe the image you want to generate" className="focus:shadow-soft-primary-outline focus:shadow-violet-300 pl-2 pr-2 py-2 w-full text-sm leading-5.6 ease-soft appearance-none rounded-lg border border-solid border-violet-300 bg-white bg-clip-padding font-normal text-slate-800 outline-none transition-all placeholder:italic placeholder:text-gray-500 focus:border-violet-300 focus:outline-none"></input>   
+                    <input value={captionText} onChange={handleInputFormChange} type="text" placeholder="Describe the image you want to generate" className="focus:shadow-soft-primary-outline focus:shadow-violet-300 pl-2 pr-2 py-2 w-full text-sm leading-5.6 ease-soft appearance-none rounded-lg border border-solid border-violet-300 bg-white bg-clip-padding font-normal text-slate-800 outline-none transition-all placeholder:italic placeholder:text-gray-500 focus:border-violet-300 focus:outline-none"></input>   
                   </div>
                   <div className="">
                     <div className="flex flex-wrap mt-0">
@@ -220,17 +176,9 @@ export default function Header() {
                         {authenticated ? (
                           <button
                             className="inline-block px-6 py-3 mr-3 font-bold text-center text-white uppercase align-middle transition-all rounded-3.5xl cursor-pointer bg-gradient-to-tl from-violet-600 to-violet-300 text-xs ease-soft-in tracking-tight-soft shadow-soft-md bg-150 bg-x-25 hover:scale-102 active:opacity-85 hover:shadow-soft-xs"
-                            onClick={generateImageTx}
+                            onClick={handleGenerateImg}
                           >
-                            {isTxProcessing ? (
-                              <>
-                                Processing
-                              </>
-                            ) : (
-                              <>
                                 Generate
-                              </>
-                            )}
                           </button>
                         ) : (
                           <button className="inline-block px-6 py-3 mr-3 font-bold text-center text-white uppercase align-middle transition-all rounded-3.5xl cursor-pointer bg-gradient-to-tl from-violet-600 to-violet-300 text-xs ease-soft-in tracking-tight-soft shadow-soft-md bg-150 bg-x-25 hover:scale-102 active:opacity-85 hover:shadow-soft-xs">
@@ -257,7 +205,7 @@ export default function Header() {
                       <div className="w-full text-center">
                         {authenticated ? (
                         <>
-                          <Card />
+                          <WalletCard walletAddress={address!} walletBalance={balance} walletCredits={walletCredits} />
                         </>
                         ) : (
                           <>

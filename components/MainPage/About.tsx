@@ -3,7 +3,12 @@ export default function About() {
     <section className="bg-white pt-40 sm-max:pt-30">
       <div className="container mx-auto mb-20 text-center">
         <p className="block text-base leading-relaxed text-slate-600 mb-2 font-bold">effortless creativity</p>
-        <h2 className="block tracking-normal font-bold text-violet-600 mb-4">grape.tools</h2>
+        <h2 
+          className="block tracking-normal font-bold text-violet-600 mb-4 translate-x-4"
+        >
+          grape.tools
+          <span className="inline-block text-3.5 ml-1 z-999 -translate-y-4 text-violet-600">beta</span>
+        </h2>
         <p className="block antialiased text-lg font-normal leading-relaxed text-slate-600 mx-auto w-full px-4 md:w-10/12 lg:w-7/12 lg:px-8">
           Transform into the artist you&apos;ve always dreamed of with Grape, your personal AI companion.
           Step up your online presence: imagine, create, mint your NFT.

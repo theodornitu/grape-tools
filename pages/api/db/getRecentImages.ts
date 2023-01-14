@@ -1,4 +1,4 @@
-import clientPromise from "../../lib/mongodb";
+import clientPromise from "../../../lib/mongodb";
 import type { NextApiRequest, NextApiResponse } from 'next'
 
 export default async function handler(
@@ -11,13 +11,12 @@ export default async function handler(
 
     const dbQuery = await db
            .collection("users")
-           .find({})
+           .find()
+           .limit(6)
            .toArray();
 
-    console.log(dbQuery);
-
-       res.json(dbQuery);
-   } catch (e) {
+    res.status(200).json({ result: dbQuery });
+} catch (e) {
        console.error(e);
    }
 };
