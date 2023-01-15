@@ -85,9 +85,9 @@ export default function Header() {
     setGenerated(true);
     setImgProcessing(false);
     setImgUrl(generatedImage);
-    console.log("Pushing new image from url: " + generatedImage);
-    console.log("wallet address: " + String(address));
-    console.log("Using gen type: " + String(genType));
+    // console.log("Pushing new image from url: " + generatedImage);
+    // console.log("wallet address: " + String(address));
+    // console.log("Using gen type: " + String(genType));
     pushNewImage(generatedImage, address!, captionText, genType);
   }
   // Handle checkNewWallet API call for MongoDB
@@ -108,12 +108,12 @@ export default function Header() {
   const handleGenerateImg = async () => {
     setGenerateTrigger(generateTrigger + 1);
     if(walletCredits > 0) {
-      console.log("Generating with EGLD");
+      // console.log("Generating with EGLD");
       setWalletCredits(walletCredits-1);
       callImgGenAPI(GEN_TYPE_CREDITS)
     }
     else {
-      console.log("Generating with EGLD");
+      // console.log("Generating with EGLD");
       generateImageTx();
     }
   }
@@ -126,8 +126,8 @@ export default function Header() {
       .then((data) => {
         setEgldPrice(data.price);
         setTxValue(0.2/data.price);
-        console.log("EGLD Price: " + String(data.price));
-        console.log("TX Value: " + String(0.2/data.price));
+        // console.log("EGLD Price: " + String(data.price));
+        // console.log("TX Value: " + String(0.2/data.price));
 
       })
       .catch((err) => {

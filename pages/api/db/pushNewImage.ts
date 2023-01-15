@@ -35,7 +35,7 @@ export default async function handler(
                         $push: {
                             requests: {
                                 caption: req.body.imageCaption,
-                                iamge: imgBase64
+                                image: imgBase64
                             }
                         }
                     }

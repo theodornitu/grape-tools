@@ -1,7 +1,6 @@
 export const GEN_TYPE_CREDITS = 0;
 export const GEN_TYPE_EGLD = 1;
 
-
 // Check if wallet was used before with grape-tools
 // Flow:
 // 1. Request API checkNewWallet
@@ -24,15 +23,15 @@ export async function checkNewWallet(walletAddress: string, walletNonce: number)
     var data;
     var walletCredits: number;
 
-    console.log("response status: " + String(response.status));
+    // console.log("response status: " + String(response.status));
 
     if(response.status == 200) //200 = Wallet part of DB
         data = await response.json();
     if(response.status == 201) //201 = Wallet not part of DB
         data = null;    
 
-    console.log("Data:");
-    console.log(data);
+    // console.log("Data:");
+    // console.log(data);
 
     if(data != null)
         walletCredits = await Promise.resolve(data.credits);
@@ -43,11 +42,10 @@ export async function checkNewWallet(walletAddress: string, walletNonce: number)
     else
         walletCredits = 0;
 
-    console.log("Wallet credits: " + String(walletCredits));
+    // console.log("Wallet credits: " + String(walletCredits));
 
     return walletCredits;
 }   
-
 
 // Insert new client wallet into db
 // Flow:

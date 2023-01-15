@@ -30,20 +30,29 @@ export default function Carousel() {
     // Get the MongoDB response as JSON
     const imgData = await response.json();
 
-    // Set images and captions
-    setImg0(imgData.result[0].requests.image);
-    setImg1(imgData.result[1].requests.image);
-    setImg2(imgData.result[2].requests.image);
-    setImg3(imgData.result[3].requests.image);
-    setImg4(imgData.result[4].requests.image);
-    setImg5(imgData.result[5].requests.image);
+    // console.log("imgData");
+    // console.log(imgData.result[0]);
+    // console.log(imgData.result);
+    // console.log(imgData.result[0].requests[0].caption);
+    // console.log("Image:");
+    // console.log(imgData.result);
 
-    setCap0(imgData.result[0].requests.caption);
-    setCap1(imgData.result[1].requests.caption);
-    setCap2(imgData.result[2].requests.caption);
-    setCap3(imgData.result[3].requests.caption);
-    setCap4(imgData.result[4].requests.caption);
-    setCap5(imgData.result[5].requests.caption);
+    if(imgData.result[0] != null) {
+      // Set images and captions
+      setImg0(imgData.result[0].requests[0].image);
+      setImg1(imgData.result[1].requests[0].image);
+      setImg2(imgData.result[2].requests[0].image);
+      setImg3(imgData.result[3].requests[0].image);
+      setImg4(imgData.result[4].requests[0].image);
+      setImg5(imgData.result[5].requests[0].image);
+
+      setCap0(imgData.result[0].requests[0].caption);
+      setCap1(imgData.result[1].requests[0].caption);
+      setCap2(imgData.result[2].requests[0].caption);
+      setCap3(imgData.result[3].requests[0].caption);
+      setCap4(imgData.result[4].requests[0].caption);
+      setCap5(imgData.result[5].requests[0].caption);
+    }
   };
 
   useEffect(() => {

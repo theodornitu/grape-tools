@@ -15,7 +15,7 @@ export default async function handler(
   const completion = await openai.createImage({
     prompt: req.body.text,
     n: 1,
-    size: "256x256",
+    size: "1024x1024",
   });
   
   res.status(200).json({ result: completion.data });

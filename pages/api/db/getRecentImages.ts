@@ -12,6 +12,8 @@ export default async function handler(
     const dbQuery = await db
            .collection("users")
            .find()
+           .sort({_id:-1})
+           .project({requests: { $slice: -1}})
            .limit(6)
            .toArray();
 

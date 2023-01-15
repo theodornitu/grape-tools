@@ -7,10 +7,10 @@ export default function Faq() {
   });
 
   const QA = [
-    { question: 'What are NFTs ?', answer: 'A non-fungible token is a financial security consisting of digital data stored in a blockchain, a form of distributed ledger.' },
-    { question: 'When will be the Minting Day ?', answer: 'The minting day will on 3rd December.' },
-    { question: 'How much is an NFT? ', answer: 'The cost of an NFT is 1 EGLD' },
-    { question: 'What is your Twitter Official Account ?', answer: 'Our official twitter account is visible our discord server.' },
+    { question: 'What is grape-tools?', answer: 'Grape-tools is a tool that generates images based on input text. It also offers the possibility to mint the images as non-fungible tokens (NFTs) on the MultiversX (formerly Elrond) blockchain.' },
+    { question: 'How does it work?', answer: 'Grape-tools generates images from your provided caption text using the DALL-E API and presents the result to you. The generated image can be saved and you can pay for this service using credits or cryptocurrency like EGLD without the need for a credit card or bank statement.' },
+    { question: 'How much does it cost? ', answer: 'Each new valid MultiversX wallet holder is entitled to 15 free image generations, which can be used without incurring any cost. After using the 15 credits, each subsequent image generation will cost 0.2$ worth of EGLD. Additionally, an option to purchase bulk credits will be available in the future.' },
+    { question: 'Is there a roadmap?', answer: "Once the beta phase of Grape-tools is complete (on February 1st), a roadmap for the tool's future developments will be shared. Some planned features include the option to purchase bulk credits, the ability to generate a collection of NFTs using only text input, integration of other AI models, premium AI-assisted image generation, image and NFT transformation, and more." },
   ]
 
   return (

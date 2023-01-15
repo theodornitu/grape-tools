@@ -13,7 +13,7 @@ const Home: NextPage = () => {
                 <About />
                 <Main />
                 <Carousel />
-                {/* <Faq /> */}
+                <Faq />
                 <Footer footerLanding />
         </div>
         
