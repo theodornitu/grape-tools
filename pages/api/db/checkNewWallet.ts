@@ -10,10 +10,8 @@ export default async function handler(
         const client = await clientPromise;
         const db = client.db(process.env.DB_NAME);
 
-        //Check if wallet is part of db
-        const dbQuery = await db.collection('users').findOne({ wallet: req.body.walletAddress });
-       
-        // console.log(dbQuery);
+        //Check if wallet is part of db, project wallet without generated images to be fast
+        const dbQuery = await db.collection('users').find({ wallet: req.body.walletAddress }).project({requests: 0}).toArray();
 
         if(dbQuery != null)
             res.status(200).json(dbQuery); // dbQuery != null -> Wallet part of db

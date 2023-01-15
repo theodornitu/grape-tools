@@ -24,17 +24,27 @@ export async function checkNewWallet(walletAddress: string, walletNonce: number)
     var data;
     var walletCredits: number;
 
+    console.log("response status: " + String(response.status));
+
     if(response.status == 200) //200 = Wallet part of DB
         data = await response.json();
-    else //201 = Wallet not part of DB
-        data = null;  
-    
+    if(response.status == 201) //201 = Wallet not part of DB
+        data = null;    
+
+    console.log("Data:");
+    console.log(data);
+
     if(data != null)
         walletCredits = await Promise.resolve(data.credits);
-    else {
-        walletCredits = await Promise.resolve(15);
+    if(data = null && response.status != 500) {
+        walletCredits = 15;
         insertNewWallet(walletAddress, walletNonce);
     }
+    else
+        walletCredits = 0;
+
+    console.log("Wallet credits: " + String(walletCredits));
+
     return walletCredits;
 }   
 
