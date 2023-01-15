@@ -1,7 +1,7 @@
 import "../styles/globals.css";
 import "../styles/loading-dot.css";
 
-import { AuthContextProvider } from "@elrond-giants/erd-react-hooks";
+import { AuthContextProvider } from "@elrond-giants/erd-react-hooks/dist/useAuth";
 import { DefaultSeo } from "next-seo";
 import { AppProps } from "next/app";
 import Script from "next/script";
@@ -20,19 +20,19 @@ function MyApp({ Component, pageProps }: AppProps) {
         openGraph={{
           type: "website",
           locale: "en_IE",
-          url: "localhost:3000",
-          images: [
-            {
-              url: "https://mint-demo.elrondgiants.com/social.jpg",
-              width: 1012,
-              height: 506,
-              alt: "Grape.tools",
-              type: "image/jpeg",
-            },
-          ],
+          url: "https://grape.tools/",
+          // images: [
+          //   {
+          //     url: "https://mint-demo.elrondgiants.com/social.jpg",
+          //     width: 1012,
+          //     height: 506,
+          //     alt: "Grape.tools",
+          //     type: "image/jpeg",
+          //   },
+          // ],
         }}
         twitter={{
-          handle: "@localhost",
+          handle: "@grape_tools",
           cardType: "summary_large_image",
         }}
       />
