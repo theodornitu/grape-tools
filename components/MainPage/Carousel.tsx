@@ -37,7 +37,14 @@ export default function Carousel() {
     // console.log("Image:");
     // console.log(imgData.result);
 
-    if(imgData.result[0] != null) {
+    var imgCheck: number = 0;
+
+    for (let i = 0; i < 6; i++) {
+      if(imgData.result[i] != null)
+        imgCheck++;
+    }
+
+    if(imgCheck == 6) {
       // Set images and captions
       setImg0(imgData.result[0].requests[0].image);
       setImg1(imgData.result[1].requests[0].image);

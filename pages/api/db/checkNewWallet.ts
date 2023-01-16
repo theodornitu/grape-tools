@@ -13,10 +13,14 @@ export default async function handler(
         //Check if wallet is part of db, project wallet without generated images to be fast
         const dbQuery = await db.collection('users').find({ wallet: req.body.walletAddress }).project({requests: 0}).toArray();
 
-        if(dbQuery != null)
-            res.status(200).json(dbQuery); // dbQuery != null -> Wallet part of db
+        // console.log(dbQuery.length);
+        // console.log(dbQuery[0]);
+        // console.log(dbQuery[0].credits);
+
+        if(dbQuery.length != 0) 
+            res.status(200).json(dbQuery[0]); // dbQuery != null -> Wallet part of db
         else
-            res.status(201).json(dbQuery); // dbQuery == null -> Wallet not part of db -> Insert new user
+            res.status(201).json(dbQuery[0]); // dbQuery == null -> Wallet not part of db -> Insert new user
     } 
     catch (e) {
         console.error(e);

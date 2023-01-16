@@ -11,8 +11,8 @@ export default async function handler(
     res: NextApiResponse
   ) {
    try {
-    // console.log("walletAddress: " + req.body.walletAddress);
-    // console.log("walletNonce: " + req.body.walletNonce);
+    console.log("walletAddress: " + req.body.walletAddress);
+    console.log("walletNonce: " + req.body.walletNonce);
 
     //Connect to db
     const client = await clientPromise;
@@ -23,7 +23,7 @@ export default async function handler(
         insertCredits = STARTING_CREDITS_CLIENT;
     else
         insertCredits = STARTING_CREDITS_BOT;
-    // console.log("walletCreditsToBeSet: " + String(insertCredits));
+    console.log("walletCreditsToBeSet: " + String(insertCredits));
 
     //Populate the schema with content
     const user: MongoDbSchema = {

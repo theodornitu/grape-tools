@@ -25,7 +25,7 @@ export async function checkNewWallet(walletAddress: string, walletNonce: number)
 
     // console.log("response status: " + String(response.status));
 
-    if(response.status == 200) //200 = Wallet part of DB
+    if(response.status == 200)  //200 = Wallet part of DB
         data = await response.json();
     if(response.status == 201) //201 = Wallet not part of DB
         data = null;    
@@ -33,18 +33,19 @@ export async function checkNewWallet(walletAddress: string, walletNonce: number)
     // console.log("Data:");
     // console.log(data);
 
-    if(data != null)
-        walletCredits = await Promise.resolve(data.credits);
-    if(data = null && response.status != 500) {
+    if(data != null){
+        // console.log("Getting credits from db");
+        walletCredits = data.credits;
+    }
+    if(data == null && response.status != 500) {
+        // console.log("Inserting 15 credits in db");
         walletCredits = 15;
         insertNewWallet(walletAddress, walletNonce);
     }
-    else
-        walletCredits = 0;
 
-    // console.log("Wallet credits: " + String(walletCredits));
+    // console.log("Wallet credits: " + String(walletCredits!));
 
-    return walletCredits;
+    return walletCredits!;
 }   
 
 // Insert new client wallet into db
