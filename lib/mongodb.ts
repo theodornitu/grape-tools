@@ -31,10 +31,23 @@ export default clientPromise
 export interface MongoDbSchema {
   wallet: string,
   credits: number,
+  reqSize: number,
     requests: [
         { 
             caption: string, 
             image: string,
         }
     ]
+}
+
+
+// @tood: explore variants with interface as one line query
+export interface pushImageSchema {
+    $inc: number,
+    $push: {
+        requests: {
+            caption: string,
+            iamge: string
+        }
+    }
 }

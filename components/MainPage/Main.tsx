@@ -6,7 +6,7 @@ import { authPath } from "../../utils/routes";
 
 //From grapedb libs
 import {checkNewWallet, pushNewImage} from './../../lib/grapedb';
-import {GEN_TYPE_CREDITS, GEN_TYPE_EGLD} from './../../lib/grapedb';
+import {GEN_TYPE_CREDITS, GEN_TYPE_EGLD, STARTING_REQ_SIZE, STARTING_WALLET_CREDITS} from './../../lib/grapedb';
 
 import {generateImage} from './../../lib/grapeimg';
 
@@ -40,6 +40,7 @@ export default function Header() {
   // ------------- Client wallet ------------- //
   const {address, balance, nonce} = useAuth();
   const [walletCredits, setWalletCredits] = useState(0);
+  const [walletReqSize , setWalletReqSize] = useState(0);
 
   // ------------- Generate Img Transaction consts ------------- //
   const [generateTrigger, setGenerateTrigger] = useState(0);
@@ -57,10 +58,8 @@ export default function Header() {
   // ------------- Grape functions ------------- //
   const generateImageTx = async () => {
     var txObject; 
-    //Make sure no empty caption
-    if(captionText != "") 
-      //Make sure no compute issues appear
-      if(txValue > 0) 
+    if(captionText != "") //Make sure no empty caption
+      if(txValue > 0) //Make sure no compute issues appear
         txObject = await makeTransaction(txData);
       else
         alert("An error has occured, no transaction broadcasted!")
@@ -88,12 +87,16 @@ export default function Header() {
     // console.log("Pushing new image from url: " + generatedImage);
     // console.log("wallet address: " + String(address));
     // console.log("Using gen type: " + String(genType));
-    pushNewImage(generatedImage, address!, captionText, genType);
+    pushNewImage(generatedImage, address!, captionText, genType, walletReqSize);
+    setWalletReqSize(walletReqSize + 1);
   }
   // Handle checkNewWallet API call for MongoDB
   const callCheckNewWalletAPI = async () => {
-    const walletCredits = await checkNewWallet(address!, nonce);
-    setWalletCredits(walletCredits);
+    const dbResponse = await checkNewWallet(address!, nonce);
+    // console.log("Wallet credits: " + dbResponse[0]);
+    // console.log("Wallet requests: " + dbResponse[1]);
+    setWalletCredits(dbResponse[0]);
+    setWalletReqSize(dbResponse[1]);
   }
 
   // ------------- Input fields handlers ------------- //
