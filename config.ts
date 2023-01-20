@@ -13,3 +13,4 @@ export const denomination = parseInt(process.env.NEXT_PUBLIC_DENOMINATION as str
 export const egldLabel = process.env.NEXT_PUBLIC_EGLD_LABEL ?? "xEGLD";
 export const contractAddress = process.env.NEXT_PUBLIC_CONTRACT_ADDRESS;
 export const isDemo = process.env.NEXT_PUBLIC_IS_DEMO;
+export const grapeAddress = process.env.GRAPE_WALLET
