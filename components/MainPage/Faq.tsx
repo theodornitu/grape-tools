@@ -14,7 +14,7 @@ export default function Faq() {
     { question: 'Is there a roadmap?', answer: "Once the beta phase of Grape-tools is complete (on February 15th), a roadmap for the tool's future developments will be shared. Some planned features include the option to purchase bulk credits, the ability to generate a collection of NFTs using only text input, integration of other AI models, premium AI-assisted image generation, image and NFT transformation, and more." },
     { question: 'I found a problem, can I report it?', answer: 'Yes, we are more than happy to receive feedback, please follow the "Send feedback" link in the footer of the page. You will be asked for a valid ERD address, once we find the bug and solve it, you might receive a gift.'}
   ]
-
+ 
   return (
     <>
       <div className="mx-auto text-center px-4 mt-12 text-4xl text-violet-600 font-semibold">
