@@ -7,8 +7,8 @@ import { authPath } from "../../utils/routes";
 //From grapedb libs
 import {checkNewWallet, pushNewImage} from './../../lib/grapedb';
 import {GEN_TYPE_CREDITS, GEN_TYPE_EGLD, STARTING_REQ_SIZE, STARTING_WALLET_CREDITS} from './../../lib/grapedb';
-import {grapeAddress} from '../../config';
 import {generateImage} from './../../lib/grapeimg';
+import {grapeWallet} from '../../config'
 
 //NextJs
 import Link from "next/link";
@@ -46,7 +46,7 @@ export default function Header() {
   const [generateTrigger, setGenerateTrigger] = useState(0);
   const [txValue, setTxValue] = useState(0);
   const txData: ITransactionProps = {
-    receiver: grapeAddress as string,
+    receiver: grapeWallet as string,
     data: "generate",
     gasLimit: 13_000_000,
     value: txValue,
