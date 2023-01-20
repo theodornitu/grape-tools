@@ -85,15 +85,17 @@ export default function Navbar() {
                 <span className="max-h-54 hidden"></span>
                 <ul className="flex flex-col items-center pl-0 mb-0 list-none lg:flex-row">
                   <li className="mb-2 lg:mb-0">
-                        <Link
-                          href="https://twitter.com/ursulet_de_plus"
+                        <a
+                          href="https://twitter.com/grape_tools"
+                          target="_blank"
+                          rel="noreferrer"
                         >
                           <button 
                             className="leading-pro ml-1 lg:ml-0 hover:scale-102 lg:mb-0 hover:shadow-soft-xs bg-violet-600 border-white border active:opacity-85 ease-soft-in text-xs tracking-tight-soft bg-150 bg-x-25 rounded-3.5xl mb-0 inline-block cursor-pointer bg-transparent mr-1 px-8 py-2 text-center align-middle font-bold uppercase text-white transition-all"
                           >
                             twitter
                           </button>
-                        </Link>
+                        </a>
                     </li>
                   {authenticated ? (
                     <li>

@@ -12,6 +12,24 @@ export default function Footer(props: any) {
                     grape tools <br />
                   </span>
                 </p>
+                <p className="text-2.5 text-slate-700/60">
+                  <a 
+                    className="mr-7 hover:underline"
+                    href="mailto:hi.grape.tools@gmail.com"
+                    target="_blank"
+                    rel="noreferrer"
+                  >
+                    Contact
+                  </a>
+                  <a
+                    className="mr-7 hover:underline"
+                    href="https://forms.gle/D5fRAnHemPNqKsSLA"
+                    target="_blank"
+                    rel="noreferrer"
+                  >
+                    Send feedback
+                  </a>
+                </p>
               </div>
             </div>
             <div className="w-full px-4 pr-6 md:w-5/12 mt-5 lg:mt-0 text-end">
