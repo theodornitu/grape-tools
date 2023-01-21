@@ -24,7 +24,7 @@ export default async function handler(
            .sort({_id:-1})
         //    .project({requests: { $slice: -1}})
            .project({caption: 1,requests: {$elemMatch:  {image: { $ne : ""}}}})
-           .limit(6)
+           .limit(4)
            .toArray();
 
     res.status(200).json({ result: dbQuery });
