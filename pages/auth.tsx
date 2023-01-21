@@ -1,4 +1,4 @@
-import { useAuth } from '@elrond-giants/erd-react-hooks';
+import { useAuth } from '@elrond-giants/erd-react-hooks/dist/useAuth/useAccount';
 import { AuthProviderType } from '@elrond-giants/erdjs-auth/dist/types';
 import { useRouter } from 'next/router';
 import QRCode from 'qrcode';
@@ -11,7 +11,6 @@ import * as config from '../config';
 import { homePath } from '../utils/routes';
 
 import type {NextPage} from 'next'
-import { isDemo } from '../config';
 // @ts-ignore
 
 const Auth: NextPage = () => {
@@ -130,20 +129,17 @@ const Auth: NextPage = () => {
                                         <MaiarLoginPopup qrCode={authQrCode} uri={maiarAuthUri} open={showPopup} setOpen={setIsPopupOpen}/>
                                     </div>
                                     <div className="p-6 px-1 pt-0 text-center bg-transparent border-t-0 border-t-solid rounded-b-2xl lg:px-2">
-                                    <p className="mx-auto mb-6 leading-normal text-sm text-slate-700">
-                                        Don&apos;t have an Elrond wallet?
-                                        <a
-                                        href="https://wallet.elrond.com/"
-                                        target="_blank"
-                                        rel="noreferrer"
-                                        className="relative z-10 font-semibold text-transparent bg-gradient-to-tl from-blue-600 to-cyan-400 bg-clip-text ml-1"
-                                        >
-                                        Create Wallet
-                                        </a>
-                                    </p>
-                                    {isDemo && <p className="mx-auto mb-6 leading-normal text-sm text-slate-700 font-bold">
-                                        This Demo is running on Devnet
-                                    </p>}
+                                        <p className="mx-auto mb-6 leading-normal text-sm text-slate-700">
+                                            Don&apos;t have an Elrond wallet?
+                                            <a
+                                            href="https://wallet.elrond.com/"
+                                            target="_blank"
+                                            rel="noreferrer"
+                                            className="relative z-10 font-semibold text-transparent bg-gradient-to-tl from-blue-600 to-cyan-400 bg-clip-text ml-1"
+                                            >
+                                            Create Wallet
+                                            </a>
+                                        </p>
                                     </div>
                                 </div>
                             </div>

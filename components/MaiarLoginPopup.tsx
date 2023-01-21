@@ -1,7 +1,6 @@
 import Popup from "./shared/Dialog";
 import {Dialog} from "@headlessui/react";
 
-
 interface PopupProps {
     qrCode: string,
     uri: string,
