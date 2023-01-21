@@ -70,7 +70,6 @@ export default function Header() {
     if (txResult.status.isExecuted())
       callImgGenAPI(GEN_TYPE_EGLD);
   };
-
   // ------------------------------------------------------------------------------------------------------
 
   // ------------- API Call wrappers ------------- //
