@@ -1,6 +1,15 @@
 import clientPromise from "../../../lib/mongodb";
 import type { NextApiRequest, NextApiResponse } from 'next'
 
+export const config = {
+    api: {
+        responseLimit: false,
+        bodyParser: {
+            sizeLimit: '8mb' // Set desired value here
+        }
+    },
+}
+
 export default async function handler(
     req: NextApiRequest,
     res: NextApiResponse
@@ -11,9 +20,10 @@ export default async function handler(
 
     const dbQuery = await db
            .collection("users")
-           .find()
+           .find() 
            .sort({_id:-1})
-           .project({requests: { $slice: -1}})
+        //    .project({requests: { $slice: -1}})
+           .project({caption: 1,requests: {$elemMatch:  {image: { $ne : ""}}}})
            .limit(6)
            .toArray();
 
