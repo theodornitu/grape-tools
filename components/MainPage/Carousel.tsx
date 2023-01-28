@@ -26,7 +26,7 @@ export default function Carousel() {
         const sImage: string = imgData.result.image;
         const sCaption: string = imgData.result.caption;
 
-        let updatedVal = {
+        let updatedVal = { 
           image: sImage,
           caption: sCaption
         }
@@ -92,12 +92,6 @@ export default function Carousel() {
             animation: 'carouselAnim 12s infinite alternate linear'
           }}
         >
-
-        {/* {recentCreations.map((data) => {
-            return ( 
-              <CarouselComponent imgUrl={data.image} imgCap={data.caption} /> 
-              )
-          })} */}
 
           {(() => {
             let td = [];
