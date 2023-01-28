@@ -4,6 +4,8 @@ import React from 'react';
 //Modules and components
 import Tooltip from "./Tooltip";
 import Elrond from "./media/Elrond";
+import {denomination} from "../../../config"
+import {denominate} from "../../../utils/economics";
 
 //Giants
 import AccountBalance from "@elrond-giants/erd-react-hooks/dist/AccountBalance";
@@ -23,11 +25,20 @@ export default function Card(props: cardData) {
     //Various consts
     const showChars = 4;
 
+    // console.log("denomination: " + denomination);
+    // console.log(props.walletBalance);
+    // console.log("walletBalance: " + props.walletBalance);
+    // console.log("walletBalance_denominateFunc: " + denominate(String(props.walletBalance),4));
+
     //Process Account Balance
-    const sBalance = String(props.walletBalance);
-    const balance_denominated_full = [sBalance.slice(0,sBalance.length-18), ".", sBalance.slice(sBalance.length-18)].join(''); //Add separator
-    const balanceIntCount = balance_denominated_full.indexOf('.'); //Determine integer digits
-    const balance_denominated = balance_denominated_full.substring(0,balanceIntCount + 2) //Show integer digits + . + one more digit
+    // const sBalance = String(props.walletBalance);
+    // console.log("balance as string: " + sBalance);
+    // const balance_denominated_full = [sBalance.slice(0,sBalance.length-denomination), ".", sBalance.slice(sBalance.length-denomination)].join(''); //Add separator
+    // console.log("balance denomi as string: " + balance_denominated_full);
+    // const balanceIntCount = balance_denominated_full.indexOf('.'); //Determine integer digits
+    // const balance_denominated = balance_denominated_full.substring(0,balanceIntCount + 2) //Show integer digits + . + one more digit
+
+    const balance_denominated = denominate(String(props.walletBalance),2);
 
     //Process Account address + explorer
     const explorerLink = process.env.NEXT_PUBLIC_NETWORK_EXPLORER_ADDRESS + "/accounts/" + props.walletAddress;
@@ -71,7 +82,7 @@ export default function Card(props: cardData) {
                             <div>
                                 <p className="mb-0 font-normal leading-normal text-sm">balance</p>
                                 <h6 className="mb-0">
-                                    {balance_denominated}
+                                    {String(balance_denominated)}
                                     <Elrond />
                                 </h6>
                             </div>

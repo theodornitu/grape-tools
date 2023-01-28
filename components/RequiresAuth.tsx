@@ -1,4 +1,4 @@
-import {useAuth} from "@elrond-giants/erd-react-hooks";
+import {useAuth} from "@elrond-giants/erd-react-hooks/dist/useAuth/useAccount";
 import {useRouter} from "next/router";
 import {useEffect} from "react";
 import {authPath} from "../utils/routes";

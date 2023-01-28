@@ -8,8 +8,9 @@ import Script from "next/script";
 import { Provider as ReduxProvider } from "react-redux";
 
 import Notifications from "../components/Notifications";
-import { isDemo } from "../config";
 import store from "../redux/store";
+
+import {networkEnv} from "../config";
 
 function MyApp({ Component, pageProps }: AppProps) {
   return (
@@ -37,7 +38,7 @@ function MyApp({ Component, pageProps }: AppProps) {
         }}
       />
       <ReduxProvider store={store}>
-        <AuthContextProvider env={process?.env?.NODE_ENV === "production" && !isDemo ? "mainnet" : "devnet"}>
+        <AuthContextProvider env={networkEnv == "mainnet" ? "mainnet" : "devnet"}>
           <Component {...pageProps} />
           <Notifications />
         </AuthContextProvider>

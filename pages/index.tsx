@@ -9,12 +9,12 @@ import type {NextPage} from 'next'
 const Home: NextPage = () => {
     return (
         <div>
-                <Navbar />
-                <About />
-                <Main />
-                <Carousel />
-                <Faq />
-                <Footer footerLanding />
+            <Navbar />
+            <About />
+            <Main />
+            <Carousel />
+            <Faq />
+            <Footer footerLanding />
         </div>
         
     );
