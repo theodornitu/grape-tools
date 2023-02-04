@@ -1,15 +1,6 @@
 import clientPromise from "../../../lib/mongodb";
 import type { NextApiRequest, NextApiResponse } from 'next'
 
-export const config = {
-    api: {
-        responseLimit: '10mb',
-        bodyParser: {
-            sizeLimit: '10mb' // Set desired value here
-        }
-    },
-}
-
 export default async function handler(
     req: NextApiRequest,
     res: NextApiResponse
