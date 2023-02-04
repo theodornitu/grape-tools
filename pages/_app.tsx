@@ -24,7 +24,7 @@ function MyApp({ Component, pageProps }: AppProps) {
           url: "https://grape.tools/",
           images: [
             {
-              url: "socials.png",
+              url: "https://grape.tools/socials.png",
               width: 1012,
               height: 506,
               alt: "Grape.tools",
