@@ -21,7 +21,7 @@
       transform: translate(0, 0);
     }
     to {
-      transform: translate(calc(-100% + (5*300px)));
+      transform: translate(calc(-100% + (4*300px)));
     }
   }
 }

@@ -10,6 +10,8 @@ import { Provider as ReduxProvider } from "react-redux";
 import Notifications from "../components/Notifications";
 import store from "../redux/store";
 
+import {networkEnv} from "../config";
+
 function MyApp({ Component, pageProps }: AppProps) {
   return (
     <>
@@ -20,15 +22,15 @@ function MyApp({ Component, pageProps }: AppProps) {
           type: "website",
           locale: "en_IE",
           url: "https://grape.tools/",
-          // images: [
-          //   {
-          //     url: "https://mint-demo.elrondgiants.com/social.jpg",
-          //     width: 1012,
-          //     height: 506,
-          //     alt: "Grape.tools",
-          //     type: "image/jpeg",
-          //   },
-          // ],
+          images: [
+            {
+              url: "https://grape.tools/socials.png",
+              width: 1012,
+              height: 506,
+              alt: "Grape.tools",
+              type: "image/png",
+            },
+          ],
         }}
         twitter={{
           handle: "@grape_tools",
@@ -36,7 +38,7 @@ function MyApp({ Component, pageProps }: AppProps) {
         }}
       />
       <ReduxProvider store={store}>
-        <AuthContextProvider env={"mainnet"}>
+        <AuthContextProvider env={networkEnv == "mainnet" ? "mainnet" : "devnet"}>
           <Component {...pageProps} />
           <Notifications />
         </AuthContextProvider>

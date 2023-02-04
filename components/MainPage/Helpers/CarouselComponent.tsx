@@ -5,9 +5,10 @@ interface requests {
     imgCap: string;
 }
 
-function CarouselComponent(props: requests) {
+function CarouselComponent(props: requests, key: string) {
     const bgAsUrl = "url('" + props.imgUrl + "')";
-
+    // console.log(props.imgUrl);
+    // console.log(props.imgCap);
     return (
         <>
         {(props.imgUrl != '' ) ? (
@@ -22,8 +23,13 @@ function CarouselComponent(props: requests) {
                     backgroundPosition: "center"
                 }}
                 >
-                <div className="mt-3 mb-0 p-3 text-white font-semibold backdrop-blur-md rounded-lg border border-white/20 bg-white/10 w-full">
-                    {props.imgCap}
+                <div className="mt-3 mb-0 p-3 text-white text-3 backdrop-blur-md rounded-lg border border-white/20 bg-black/10 w-full">
+                {/* {(props.imgCap != '' ) ? (
+                    props.imgCap.slice(0,43) + ((props.imgCap.length > 40) ? ("...") : (""))
+                ) : ( */}
+                {props.imgCap}
+                {/* )
+                } */}
                 </div>
             </div>
         ) : (
