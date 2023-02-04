@@ -22,15 +22,15 @@ function MyApp({ Component, pageProps }: AppProps) {
           type: "website",
           locale: "en_IE",
           url: "https://grape.tools/",
-          // images: [
-          //   {
-          //     url: "https://mint-demo.elrondgiants.com/social.jpg",
-          //     width: 1012,
-          //     height: 506,
-          //     alt: "Grape.tools",
-          //     type: "image/jpeg",
-          //   },
-          // ],
+          images: [
+            {
+              url: "socials.png",
+              width: 1012,
+              height: 506,
+              alt: "Grape.tools",
+              type: "image/png",
+            },
+          ],
         }}
         twitter={{
           handle: "@grape_tools",
